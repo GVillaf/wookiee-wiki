@@ -14,7 +14,7 @@ export default function Home() {
       <section>
         <div className="z-10 mt-[100vh] flex flex-col items-center justify-center">
           <Link href="/films">
-           Películas
+            Películas
           </Link>
           <Link href="/characters">
             Personajes
