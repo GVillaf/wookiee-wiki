@@ -1,9 +1,10 @@
 'use client'
+
 import Link from 'next/link';
 import { useState, useEffect } from 'react';
 
-async function getCharacters(page = 1) {
-  const res = await fetch(`/api/characters?page=${page}&limit=10`);
+async function getCharacters(page = 1, eyeColor = '', gender = '') {
+  const res = await fetch(`/api/characters?page=${page}&limit=10&eye_color=${eyeColor}&gender=${gender}`);
   return res.json();
 }
 
@@ -13,11 +14,13 @@ export function CharacterList() {
   const [error, setError] = useState(null);
   const [page, setPage] = useState(1);
   const [total, setTotal] = useState(0);
+  const [eyeColor, setEyeColor] = useState('');
+  const [gender, setGender] = useState('');
 
   useEffect(() => {
     async function fetchCharacters() {
       try {
-        const data = await getCharacters(page);
+        const data = await getCharacters(page, eyeColor, gender);
         setCharacters(data.characters);
         setTotal(data.total);
         setLoading(false);
@@ -28,7 +31,7 @@ export function CharacterList() {
     }
 
     fetchCharacters();
-  }, [page]);
+  }, [page, eyeColor, gender]);
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>{error}</p>;
@@ -37,6 +40,40 @@ export function CharacterList() {
 
   return (
     <div>
+      <div className="mb-4 flex justify-between items-center">
+        <div>
+          <label className="mr-2">Eye Color:</label>
+          <select
+            value={eyeColor}
+            onChange={(e) => setEyeColor(e.target.value)}
+            className="bg-gray-800 text-yellow-400 p-2 rounded"
+          >
+            <option value="">All</option>
+            <option value="blue">Blue</option>
+            <option value="brown">Brown</option>
+            <option value="green">Green</option>
+            <option value="yellow">Yellow</option>
+            <option value="red">Red</option>
+            <option value="black">Black</option>
+            <option value="orange">Orange</option>
+            <option value="hazel">Hazel</option>
+            <option value="pink">Pink</option>
+          </select>
+        </div>
+        <div>
+          <label className="mr-2">Gender:</label>
+          <select
+            value={gender}
+            onChange={(e) => setGender(e.target.value)}
+            className="bg-gray-800 text-yellow-400 p-2 rounded"
+          >
+            <option value="">All</option>
+            <option value="male">Male</option>
+            <option value="female">Female</option>
+            <option value="n/a">N/A</option>
+          </select>
+        </div>
+      </div>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
         {characters.map(character => (
           <div key={character.id} className="card bg-gray-800 p-4 rounded shadow-lg">
@@ -63,4 +100,26 @@ export function CharacterList() {
       </div>
     </div>
   );
+}
+
+export async function getCharacterDetails(id) {
+  const response = await fetch(`http://localhost:3000/api/characters/${id}`);
+  if (!response.ok) {
+    throw new Error('Failed to fetch character details');
+  }
+  return response.json();
+}
+
+export async function getCharacterNames(characterUrls) {
+  const characterDetails = await Promise.all(
+    characterUrls.map(async (url) => {
+      const res = await fetch(url);
+      const character = await res.json();
+      return {
+        name: character.name,
+        url: `/characters/${character.url.match(/\/(\d+)\/$/)[1]}`
+      };
+    })
+  );
+  return characterDetails;
 }
