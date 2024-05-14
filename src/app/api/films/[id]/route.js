@@ -1,10 +1,15 @@
 import { NextResponse } from "next/server";
 
-export async function GET(req) {
-  const { id } = req.query;
+export async function GET(request, { params }) {
+  const { id } = params;
 
   try {
-    const response = await fetch(`https://swapi.dev/api/films/${id}`);
+    const response = await fetch(`https://swapi.dev/api/films/${id}/`);
+    if (!response.ok) {
+      return NextResponse.json({
+        error: "Movie not found",
+      });
+    }
     const film = await response.json();
     return NextResponse.json({
       title: film.title,
@@ -13,8 +18,8 @@ export async function GET(req) {
       characters: film.characters,
     });
   } catch (error) {
-    return NextResponse({
-      error: "Movie not found",
+    return NextResponse.json({
+      error: "An error occurred while fetching the movie data",
     });
   }
 }

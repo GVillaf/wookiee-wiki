@@ -1,36 +1,29 @@
 import { NextResponse } from "next/server";
 
-export async function GET(req) {
-  const { id } = req.query;
+export async function GET(request, { params }) {
+  const { id } = params;
 
   try {
-    const response = await fetch(`https://swapi.dev/api/people/${id}`);
+    const response = await fetch(`https://swapi.dev/api/people/${id}/`);
+    if (!response.ok) {
+      return NextResponse.json({
+        error: "Character not found",
+      });
+    }
     const character = await response.json();
-    const filteredCharacter = {
+    return NextResponse.json({
       name: character.name,
-      eye_color:
-        character.eye_color !== "n/a" && character.eye_color !== "unknown"
-          ? character.eye_color
-          : undefined,
-      hair_color:
-        character.hair_color !== "n/a" && character.hair_color !== "unknown"
-          ? character.hair_color
-          : undefined,
-      skin_color:
-        character.skin_color !== "n/a" && character.skin_color !== "unknown"
-          ? character.skin_color
-          : undefined,
+      eye_color: character.eye_color,
+      gender: character.gender,
+      birth_year: character.birth_year,
+      hair_color: character.hair_color,
       height: character.height,
+      skin_color: character.skin_color,
       mass: character.mass,
-      gender:
-        character.gender !== "n/a" && character.gender !== "unknown"
-          ? character.gender
-          : undefined,
-    };
-    return NextResponse.json(filteredCharacter);
+    });
   } catch (error) {
     return NextResponse.json({
-      error: "Character not found",
+      error: "An error occurred while fetching the character data",
     });
   }
 }

@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server"
 
-export const GET = async (req) => {
+export const GET = async () => {
     try{
         const response = await fetch('https://swapi.dev/api/films/')
         const { results } = await response.json()
@@ -11,7 +11,7 @@ export const GET = async (req) => {
         }))
         return NextResponse.json({ films })
     } catch(error){
-        return NextResponse({
+        return NextResponse.json({
             error: "Error retrieving movies"
         })
     }
