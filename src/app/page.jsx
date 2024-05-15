@@ -1,21 +1,26 @@
 import Link from 'next/link';
+import Image from 'next/image';
+import image1 from '@/app/assets/images/character.webp';
 
 export default function Home() {
   return (
-    <main className="bg-gray-900 text-yellow-400 min-h-screen flex flex-col items-center justify-center p-8 space-y-8">
-      <h1 className="text-6xl font-bold">WookieeWiki</h1>
-      <p className="text-2xl mb-8">"Explore the Galaxy of Star Wars"</p>
-      <div className="flex flex-wrap justify-center gap-8">
+    <main className="bg-cover bg-center text-yellow-400 min-h-screen flex flex-col items-center justify-between p-8 md:max-h-screen overflow-y-hidden relative w-full md:h-screen">
+      <div className="absolute inset-0 z-[-10] overlay-effect">
+        <Image src={image1} alt="Star Wars Background" layout="fill" objectFit="cover" />
+      </div>
+      <div className="flex flex-col items-center mt-12">
+        <h1 className="md:text-6xl text-5xl font-bold  text-center">WookieeWiki</h1>
+        <p className="text-2xl text-center mt-4 font-bold ">"Explore the Star Wars Galaxy"</p>
+      </div>
+      <div className="flex flex-wrap justify-center gap-8 mb-12">
         <Link href="/films">
-          <div className="w-80 h-60 bg-gray-800 rounded-lg shadow-lg transform hover:scale-105 transition-transform duration-300 cursor-pointer flex flex-col items-center justify-center p-4">
-            <img src="/path-to-film-icon.svg" alt="Films" className="w-24 h-24 mb-4" />
-            <h2 className="text-3xl font-bold">Películas</h2>
+          <div className="px-11 py-2 bg-gray-800 rounded-full shadow-lg transform hover:scale-105 transition-transform duration-300 cursor-pointer flex items-center justify-center p-4 border-4 border-red-500 hover:border-red-500">
+            <h2 className="text-xl font-bold text-red-500">Films</h2>
           </div>
         </Link>
         <Link href="/characters">
-          <div className="w-80 h-60 bg-gray-800 rounded-lg shadow-lg transform hover:scale-105 transition-transform duration-300 cursor-pointer flex flex-col items-center justify-center p-4">
-            <img src="/path-to-character-icon.svg" alt="Characters" className="w-24 h-24 mb-4" />
-            <h2 className="text-3xl font-bold">Personajes</h2>
+          <div className=" py-2 bg-gray-800 rounded-full shadow-lg transform hover:scale-105 transition-transform duration-300 cursor-pointer flex items-center justify-center p-4  border-4  border-blue-500  hover:border-blue-500">
+            <h2 className="text-xl font-bold text-blue-500">Characters</h2>
           </div>
         </Link>
       </div>
