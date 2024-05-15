@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react';
 import { usePathname } from 'next/navigation';
 import { getMovieDetails } from '../../../services/movieService';
 import { getCharacterNames } from '../../../services/characterService';
+import Link from 'next/link';
 
 export default function FilmDetailPage() {
   const pathname = usePathname();
@@ -38,6 +39,9 @@ export default function FilmDetailPage() {
 
   return (
     <div className="bg-gray-900 text-yellow-400 min-h-screen p-8">
+      <nav className="mb-8">
+        <Link href="/films" className="text-blue-500 hover:underline">Back to Films</Link>
+      </nav>
       <div className="max-w-4xl mx-auto">
         <h2 className="text-4xl font-bold mb-4">{movie.title} - Episode {movie.episode_id}</h2>
         <p className="mb-4">Director: {movie.director}</p>

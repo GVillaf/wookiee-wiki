@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from 'react';
 import { usePathname } from 'next/navigation';
 import { getCharacterDetails } from '../../../services/characterService';
+import Link from 'next/link';
 
 export default function CharacterDetailPage() {
   const pathname = usePathname();
@@ -34,6 +35,9 @@ export default function CharacterDetailPage() {
 
   return (
     <div className="bg-gray-900 text-yellow-400 min-h-screen p-8">
+      <nav className="mb-8">
+        <Link href="/characters" className="text-blue-500 hover:underline">Back to Characters</Link>
+      </nav>
       <div className="max-w-4xl mx-auto">
         <h2 className="text-4xl font-bold mb-4">{character.name}</h2>
         <p className="mb-4">Eye Color: {character.eye_color}</p>
