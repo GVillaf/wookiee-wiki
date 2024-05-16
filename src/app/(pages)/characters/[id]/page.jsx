@@ -5,7 +5,8 @@ import { usePathname } from 'next/navigation';
 import { getCharacterDetails } from '../../../services/characterService';
 import Link from 'next/link';
 import Image from 'next/image';
-import world from '@/app/assets/images/world.webp';
+import world from '@/assets/images/world.webp';
+import charactersGeneric from '@/assets/images/characters-generic.webp';
 
 export default function CharacterDetailPage() {
   const pathname = usePathname();
@@ -44,16 +45,20 @@ export default function CharacterDetailPage() {
       <nav className="mb-8 flex justify-end items-center">
         <Link href="/characters" className="text-blue-500 font-bold hover:scale-105 hover:underline mx-7 text-2xl">Back to Characters</Link>
       </nav>
-      <div className="max-w-4xl mx-auto bg-black bg-opacity-70 p-8 rounded-2xl">
-        <h2 className="text-4xl font-bold mb-4">{character.name}</h2>
-        <p className="mb-4">Eye Color: {character.eye_color}</p>
-        <p className="mb-4">Gender: {character.gender}</p>
-        <p className="mb-4">Birth Year: {character.birth_year}</p>
-        <p className="mb-4">Hair Color: {character.hair_color}</p>
-        <p className="mb-4">Height: {character.height}</p>
-        <p className="mb-4">Skin Color: {character.skin_color}</p>
-        <p className="mb-4">Mass: {character.mass}</p>
-        {/* <img src="/generic-character-image.jpg" alt="Character Image" className="w-full h-auto" /> */}
+      <div className="max-w-4xl mx-auto bg-black bg-opacity-70 p-8 rounded-2xl flex flex-col md:flex-row">
+        <div className="md:w-1/2">
+          <h2 className="text-4xl font-bold mb-4">{character.name}</h2>
+          <p className="mb-4">Eye Color: {character.eye_color}</p>
+          <p className="mb-4">Gender: {character.gender}</p>
+          <p className="mb-4">Birth Year: {character.birth_year}</p>
+          <p className="mb-4">Hair Color: {character.hair_color}</p>
+          <p className="mb-4">Height: {character.height}</p>
+          <p className="mb-4">Skin Color: {character.skin_color}</p>
+          <p className="mb-4">Mass: {character.mass}</p>
+        </div>
+        <div className="md:w-1/2 md:pl-8">
+          <Image src={charactersGeneric} alt="Character Image" className="w-full h-auto mb-8" />
+        </div>
       </div>
     </div>
   );

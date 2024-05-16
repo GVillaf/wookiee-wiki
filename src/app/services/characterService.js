@@ -2,8 +2,10 @@
 
 import Link from 'next/link';
 import { useState, useEffect } from 'react';
+import Image from 'next/image';
+import characterGeneric from '@/assets/images/darth.webp';
 
-async function getCharacters(page = 1, eyeColor = '', gender = '') {
+export async function getCharacters(page = 1, eyeColor = '', gender = '') {
   const res = await fetch(`/api/characters?page=${page}&limit=10&eye_color=${eyeColor}&gender=${gender}`);
   return res.json();
 }
@@ -46,7 +48,7 @@ export function CharacterList() {
           <select
             value={eyeColor}
             onChange={(e) => setEyeColor(e.target.value)}
-            className="bg-gray-800 text-yellow-400 p-2 rounded"
+            className="bg-gray-800 text-yellow-400 p-2 rounded "
           >
             <option value="">All</option>
             <option value="blue">Blue</option>
@@ -74,14 +76,21 @@ export function CharacterList() {
           </select>
         </div>
       </div>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {characters.map(character => (
-          <div key={character.id} className="card bg-gray-800 p-4 rounded shadow-lg">
+          <div key={character.id} className="card bg-gray-800 p-3 m-3 rounded shadow-lg  flex flex-col items-center">
             <h3 className="text-2xl font-bold">{character.name}</h3>
             <p>Eye Color: {character.eye_color}</p>
             <p>Gender: {character.gender}</p>
-            <img src="/generic-character-image.jpg" alt="Generic Character" className="w-full h-auto my-4" />
-            <Link href={`/characters/${character.id}`}>
+            <Image
+                src={characterGeneric}
+                alt="character Generic"  
+                width={200}
+                height={200}
+                objectFit="contain"
+                priority
+              />
+            <Link className='mt-3' href={`/characters/${character.id}`}>
               Ver Detalles
             </Link>
           </div>
