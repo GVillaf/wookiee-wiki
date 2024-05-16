@@ -6,7 +6,7 @@ export default function Home() {
   return (
     <main className="bg-cover bg-center text-yellow-400 min-h-screen flex flex-col items-center justify-between p-8 md:max-h-screen overflow-y-hidden relative w-full md:h-screen">
       <div className="absolute inset-0 z-[-10]">
-        <Image src={image1} alt="Star Wars Background" layout="fill" objectFit="cover" className="opacity-60" />
+        <Image src={image1} alt="Star Wars Background" fill style={{ objectFit: 'cover' }}  className="opacity-60" />
         <div className="absolute inset-0 bg-black opacity-30"></div>
       </div>
       <div className="flex flex-col items-center mt-12">

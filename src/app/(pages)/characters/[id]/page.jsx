@@ -7,6 +7,8 @@ import Link from 'next/link';
 import Image from 'next/image';
 import world from '@/assets/images/world.webp';
 import charactersGeneric from '@/assets/images/characters-generic.webp';
+import Loader from "@/app/client/components/Loader"
+
 
 export default function CharacterDetailPage() {
   const pathname = usePathname();
@@ -32,15 +34,16 @@ export default function CharacterDetailPage() {
     }
   }, [id]);
 
-  if (loading) return <p className="text-center text-white">Loading...</p>;
+  if (loading) return <Loader />;
   if (error) return <p className="text-center text-red-500">{error}</p>;
   if (!character) return <p className="text-center text-white">Character not found.</p>;
 
   return (
     <div className="bg-center text-yellow-400 min-h-screen p-8 md:max-h-screen overflow-y-hidden relative w-full md:h-screen">
       <div className="absolute inset-0 z-[-10]">
-        <Image src={world} alt="Star Wars Background" layout="fill" objectFit="cover" className="opacity-50" />
-        <div className="absolute inset-0 bg-black opacity-50"></div> 
+        <Image src={world} alt="Star Wars Background" fill style={{ objectFit: 'cover' }}
+          className="opacity-50" />
+        <div className="absolute inset-0 bg-black opacity-50"></div>
       </div>
       <nav className="mb-8 flex justify-end items-center">
         <Link href="/characters" className="text-blue-500 font-bold hover:scale-105 hover:underline mx-7 text-2xl">Back to Characters</Link>

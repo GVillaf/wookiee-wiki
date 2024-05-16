@@ -1,12 +1,14 @@
-'use client'
+"use client";
 
-import Link from 'next/link';
-import { useState, useEffect } from 'react';
-import Image from 'next/image';
-import characterGeneric from '@/assets/images/darth.webp';
+import Link from "next/link";
+import { useState, useEffect } from "react";
+import Image from "next/image";
+import characterGeneric from "@/assets/images/darth.webp";
 
-export async function getCharacters(page = 1, eyeColor = '', gender = '') {
-  const res = await fetch(`/api/characters?page=${page}&limit=10&eye_color=${eyeColor}&gender=${gender}`);
+export async function getCharacters(page = 1, eyeColor = "", gender = "") {
+  const res = await fetch(
+    `/api/characters?page=${page}&limit=10&eye_color=${eyeColor}&gender=${gender}`
+  );
   return res.json();
 }
 
@@ -16,8 +18,8 @@ export function CharacterList() {
   const [error, setError] = useState(null);
   const [page, setPage] = useState(1);
   const [total, setTotal] = useState(0);
-  const [eyeColor, setEyeColor] = useState('');
-  const [gender, setGender] = useState('');
+  const [eyeColor, setEyeColor] = useState("");
+  const [gender, setGender] = useState("");
 
   useEffect(() => {
     async function fetchCharacters() {
@@ -27,7 +29,7 @@ export function CharacterList() {
         setTotal(data.total);
         setLoading(false);
       } catch (err) {
-        setError('Failed to fetch characters');
+        setError("Failed to fetch characters");
         setLoading(false);
       }
     }
@@ -77,20 +79,23 @@ export function CharacterList() {
         </div>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-        {characters.map(character => (
-          <div key={character.id} className="card bg-gray-800 p-3 m-3 rounded shadow-lg  flex flex-col items-center">
+        {characters.map((character) => (
+          <div
+            key={character.id}
+            className="card bg-gray-800 p-3 m-3 rounded shadow-lg  flex flex-col items-center"
+          >
             <h3 className="text-2xl font-bold">{character.name}</h3>
             <p>Eye Color: {character.eye_color}</p>
             <p>Gender: {character.gender}</p>
             <Image
-                src={characterGeneric}
-                alt="character Generic"  
-                width={200}
-                height={200}
-                objectFit="contain"
-                priority
-              />
-            <Link className='mt-3' href={`/characters/${character.id}`}>
+              src={characterGeneric}
+              alt="character Generic"
+              width={200}
+              height={200}
+              objectFit="contain"
+              priority
+            />
+            <Link className="mt-3" href={`/characters/${character.id}`}>
               Ver Detalles
             </Link>
           </div>
@@ -101,7 +106,9 @@ export function CharacterList() {
           <button
             key={index}
             onClick={() => setPage(index + 1)}
-            className={`px-4 py-2 mx-1 ${index + 1 === page ? 'bg-yellow-400' : 'bg-gray-800'} text-white rounded`}
+            className={`px-4 py-2 mx-1 ${
+              index + 1 === page ? "bg-yellow-400" : "bg-gray-800"
+            } text-white rounded`}
           >
             {index + 1}
           </button>
@@ -114,7 +121,7 @@ export function CharacterList() {
 export async function getCharacterDetails(id) {
   const response = await fetch(`http://localhost:3000/api/characters/${id}`);
   if (!response.ok) {
-    throw new Error('Failed to fetch character details');
+    throw new Error("Failed to fetch character details");
   }
   return response.json();
 }
@@ -126,7 +133,7 @@ export async function getCharacterNames(characterUrls) {
       const character = await res.json();
       return {
         name: character.name,
-        url: `/characters/${character.url.match(/\/(\d+)\/$/)[1]}`
+        url: `/characters/${character.url.match(/\/(\d+)\/$/)[1]}`,
       };
     })
   );
